@@ -28,7 +28,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     r = 6371
     return r * c
 
-@router.get("/", response_model=List[Event])
+@router.get("", response_model=List[Event])
 async def get_events(lat: float, lon: float):
     events_cursor = db.events.find()
     events = []
