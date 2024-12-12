@@ -10,7 +10,8 @@ app.add_middleware(
     # Permitir solicitudes desde localhost:3000 y Vercel
     allow_origins=["http://localhost:3000",
                     "https://examen3-iw-three.vercel.app",
-                    "https://examen3-iw-frontend-q9msiwu5m-pablos-projects-7bf36973.vercel.app"],
+                    "https://examen3-iw-frontend-q9msiwu5m-pablos-projects-7bf36973.vercel.app",
+                    "https://examen3-iw-frontend-ls1j6kp70-pablos-projects-7bf36973.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
