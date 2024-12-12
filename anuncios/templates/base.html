@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Eventual</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Incluir Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
     <nav>
@@ -21,5 +23,9 @@
 
         {% block content %}{% endblock %}
     </div>
+
+    <!-- Incluir Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

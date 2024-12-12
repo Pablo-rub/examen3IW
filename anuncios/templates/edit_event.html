@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Editar Evento</h2>
+    <form action="{{ url_for('edit_event', event_id=event._id) }}" method="post" enctype="multipart/form-data">
+        <label for="name">Nombre del Evento:</label>
+        <input type="text" id="name" name="name" value="{{ event.name }}" required>
+
+        <label for="timestamp">Fecha y Hora:</label>
+        <input type="datetime-local" id="timestamp" name="timestamp" value="{{ event.timestamp }}" required>
+
+        <label for="place">Lugar:</label>
+        <input type="text" id="place" name="place" value="{{ event.place }}" required>
+
+        <label for="details">Detalles:</label>
+        <textarea id="details" name="details" rows="4" placeholder="Descripción del evento">{{ event.details }}</textarea>
+
+        <label for="image">Imagen Promocional:</label>
+        {% if event.image_url %}
+            <img src="{{ event.image_url }}" alt="Imagen de {{ event.name }}" class="event-image">
+        {% endif %}
+        <input type="file" id="image" name="image" accept="image/*">
+
+        <button type="submit">Actualizar Evento</button>
+    </form>
+{% endblock %}

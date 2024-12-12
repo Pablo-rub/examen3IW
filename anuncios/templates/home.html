@@ -26,9 +26,21 @@
                 </li>
             {% endfor %}
         </ul>
+        
+        <!-- Mapa de la Ubicación Buscada -->
+        <div id="map" style="height: 400px; margin-top: 20px;"></div>
     {% else %}
         {% if address %}
             <p>No se encontraron eventos cerca de "{{ address }}".</p>
         {% endif %}
+    {% endif %}
+
+    {% if search_lat and search_lon %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const events = {{ events | tojson }};
+                window.initializeMap('map', {{ search_lat }}, {{ search_lon }}, events);
+            });
+        </script>
     {% endif %}
 {% endblock %}
