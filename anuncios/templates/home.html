@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Eventual</h1>
+    <form action="{{ url_for('search_events') }}" method="get">
+        <input type="text" name="address" value="{{ address or '' }}" placeholder="Introduce una dirección" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if location %}
+        <h3>Eventos Cerca de "{{ address }}"</h3>
+        <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+        <script>
+            (function() {
+                const lat = {{ location.lat }};
+                const lon = {{ location.lon }};
+                const events = {{ events|tojson }};
+                initializeMap(lat, lon, events);
+            })();
+        </script>
+    {% endif %}
+
+    {% if events %}
+        <h3>Lista de Eventos:</h3>
+        <ul>
+            {% for event in events %}
+                <li>
+                    <a href="{{ url_for('event_details', event_id=event._id) }}">{{ event.name }}</a> - Organizador: {{ event.organizer }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

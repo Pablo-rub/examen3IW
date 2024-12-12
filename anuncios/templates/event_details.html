@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ event.name }}</h2>
+    <p><strong>Fecha y Hora:</strong> {{ event.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+    <p><strong>Lugar:</strong> {{ event.place }}</p>
+    <p><strong>Organizador:</strong> {{ event.organizer }}</p>
+    {% if event.image %}
+        <img src="{{ event.image }}" alt="Imagen del Evento" style="max-width: 400px;">
+    {% endif %}
+    <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+    <script>
+        (function() {
+            const lat = {{ event.lat }};
+            const lon = {{ event.lon }};
+            const events = [{{ event|tojson }}];
+            initializeMap(lat, lon, events);
+        })();
+    </script>
+
+    {% if current_user.is_authenticated and current_user.email == event.organizer %}
+        <a href="{{ url_for('edit_event', event_id=event._id) }}">Editar Evento</a>
+        <form action="{{ url_for('delete_event', event_id=event._id) }}" method="post" style="display: inline;">
+            <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este evento?');">Eliminar Evento</button>
+        </form>
+    {% endif %}
+{% endblock %}

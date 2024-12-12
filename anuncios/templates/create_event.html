@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Crear Nuevo Evento</h2>
+    <form action="{{ url_for('create_event') }}" method="post" enctype="multipart/form-data">
+        <label for="name">Nombre del Evento:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="timestamp">Fecha y Hora:</label>
+        <input type="datetime-local" id="timestamp" name="timestamp" required>
+
+        <label for="place">Lugar:</label>
+        <input type="text" id="place" name="place" required>
+
+        <label for="image">Imagen Promocional:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+
+        <button type="submit">Crear Evento</button>
+    </form>
+{% endblock %}
