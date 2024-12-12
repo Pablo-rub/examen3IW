@@ -2,32 +2,33 @@
 
 {% block content %}
     <h1>Eventual</h1>
-    <form action="{{ url_for('search_events') }}" method="get">
+    <form action="{{ url_for('home') }}" method="post">
         <input type="text" name="address" value="{{ address or '' }}" placeholder="Introduce una dirección" required>
         <button type="submit">Buscar</button>
     </form>
 
-    {% if location %}
-        <h3>Eventos Cerca de "{{ address }}"</h3>
-        <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
-        <script>
-            (function() {
-                const lat = {{ location.lat }};
-                const lon = {{ location.lon }};
-                const events = {{ events|tojson }};
-                initializeMap(lat, lon, events);
-            })();
-        </script>
-    {% endif %}
+    <a href="{{ url_for('create_event') }}" class="create-event-link">Crear Nuevo Evento</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
     {% if events %}
-        <h3>Lista de Eventos:</h3>
+        <h3>Eventos Encontrados:</h3>
         <ul>
             {% for event in events %}
                 <li>
-                    <a href="{{ url_for('event_details', event_id=event._id) }}">{{ event.name }}</a> - Organizador: {{ event.organizer }}
+                    <a href="{{ url_for('event_details', event_id=event._id) }}">{{ event.name }}</a>
                 </li>
             {% endfor %}
         </ul>
+    {% else %}
+        {% if address %}
+            <p>No se encontraron eventos cerca de "{{ address }}".</p>
+        {% endif %}
     {% endif %}
 {% endblock %}
