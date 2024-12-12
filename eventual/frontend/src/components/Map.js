@@ -2,8 +2,13 @@ import React, { useEffect } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const Map = ({ lat, lon, events }) => {
+const Map = ({ lat, lon, events = [] }) => {
   useEffect(() => {
+    // Verificar si el mapa ya está inicializado y destruirlo
+    if (L.DomUtil.get('map') !== null) {
+      L.DomUtil.get('map')._leaflet_id = null;
+    }
+
     const map = L.map('map').setView([lat, lon], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

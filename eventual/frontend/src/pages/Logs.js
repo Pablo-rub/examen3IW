@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Logs = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLogs = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('No estás autenticado. Por favor, inicia sesión.');
+        navigate('/login');  // Redirigir a la página de inicio de sesión
+        return;
+      }
+
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/logs`, {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/logs`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -18,11 +26,14 @@ const Logs = () => {
       } catch (err) {
         console.error('Error fetching logs:', err);
         setError('No se pudo obtener los registros.');
+        if (err.response && err.response.status === 401) {
+          navigate('/login');  // Redirigir a la página de inicio de sesión si no está autorizado
+        }
       }
     };
 
     fetchLogs();
-  }, []);
+  }, [navigate]);
 
   return (
     <div>

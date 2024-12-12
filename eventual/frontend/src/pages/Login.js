@@ -11,30 +11,11 @@ const Login = () => {
     const decoded = jwt_decode(response.credential);
     console.log(decoded);
 
-    // Enviar el token al backend para autenticar
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/login/authorized`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token: response.credential, // El token de Google
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          // Guardar el token en localStorage
-          localStorage.setItem('token', response.credential);
-          navigate('/');  // Redirigir al home
-        } else {
-          alert(data.message || 'Error en el login');
-        }
-      })
-      .catch((error) => {
-        console.error('Error durante la autenticación:', error);
-        alert('Error en el login');
-      });
+    // Guardar el token en localStorage
+    localStorage.setItem('token', response.credential);
+
+    // Redirigir al home
+    navigate('/');
   };
 
   const onFailure = (error) => {

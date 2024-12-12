@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getEvents } from '../services/api';
 import Map from '../components/Map';
 
@@ -50,47 +50,46 @@ const Home = () => {
     }
   };
 
-  const handleEventClick = (id) => {
-    navigate(`/event/${id}`);
-  };
+  const isAuthenticated = !!localStorage.getItem('token');
 
   return (
     <div>
-      <h1>Buscar Eventos</h1>
-      <label>Introduce una dirección postal: </label>
-      <input 
-        type="text" 
-        value={address}
-        onChange={(e) => setAddress(e.target.value)} 
-      />
-      <button onClick={handleSearch}>Buscar</button>
-      
+      <h1>Eventual</h1>
+      <div>
+        <input
+          type="text"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Introduce una dirección"
+        />
+        <button onClick={handleSearch}>Buscar</button>
+      </div>
+
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {coordinates.lat !== 0 && coordinates.lon !== 0 && (
         <Map lat={coordinates.lat} lon={coordinates.lon} events={events} />
       )}
 
-      <div>
-        <h2>Eventos Cercanos</h2>
-        {events.length > 0 ? (
-          events.map((event) => (
-            <div key={event._id}>
-              <h3>{event.name}</h3>
-              <p>Organizador: {event.organizer}</p>
-              <p>Fecha: {new Date(event.timestamp).toLocaleString()}</p>
-              <button onClick={() => handleEventClick(event._id)}>Ver detalles</button>
-            </div>
-          ))
-        ) : (
-          <p>No hay eventos cercanos.</p>
-        )}
-      </div>
-      
-      {/* Botón para ver los logs */}
-      <Link to="/logs">
-        <button>Ver Registros de Login</button>
-      </Link>
+      {events.length > 0 && (
+        <div>
+          <h3>Eventos Cerca de Ti:</h3>
+          <ul>
+            {events.map((event) => (
+              <li key={event._id}>
+                <a href={`/event/${event._id}`}>{event.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Mostrar el botón "Crear Evento" si el usuario está autenticado */}
+      {isAuthenticated && (
+        <button onClick={() => navigate('/create-event')}>
+          Crear Evento
+        </button>
+      )}
     </div>
   );
 };

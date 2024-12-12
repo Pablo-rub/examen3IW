@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/events';
+const API_URL = process.env.REACT_APP_BACKEND_URL + '/api/events';
+
+const getAuthToken = () => {
+  return localStorage.getItem('token');
+};
 
 export const getEvents = async (lat, lon) => {
   try {
-    const response = await fetch(`http://localhost:8000/api/events?lat=${lat}&lon=${lon}`);
+    const response = await fetch(`${API_URL}?lat=${lat}&lon=${lon}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -31,10 +35,18 @@ export const getEventDetails = async (id) => {
   }
 };
 
-// Función para crear un evento
 export const createEvent = async (event) => {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error('No estás autenticado. Por favor, inicia sesión.');
+  }
+
   try {
-    const response = await axios.post(API_URL, event);
+    const response = await axios.post(API_URL, event, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error creando evento:', error);
@@ -42,10 +54,18 @@ export const createEvent = async (event) => {
   }
 };
 
-// Función para actualizar un evento
 export const updateEvent = async (id, event) => {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error('No estás autenticado. Por favor, inicia sesión.');
+  }
+
   try {
-    const response = await axios.put(`${API_URL}/${id}`, event);
+    const response = await axios.put(`${API_URL}/${id}`, event, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error actualizando evento:', error);
@@ -53,10 +73,18 @@ export const updateEvent = async (id, event) => {
   }
 };
 
-// Función para eliminar un evento
 export const deleteEvent = async (id) => {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error('No estás autenticado. Por favor, inicia sesión.');
+  }
+
   try {
-    const response = await axios.delete(`${API_URL}/${id}`);
+    const response = await axios.delete(`${API_URL}/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error eliminando evento:', error);

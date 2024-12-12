@@ -3,20 +3,21 @@ from typing import List
 from models import LoginLog
 from database import db
 from token_verification import get_google_user
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 router = APIRouter()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+security = HTTPBearer()
 
 @router.get("/logs", response_model=List[LoginLog])
-async def get_logs(token: str = Depends(oauth2_scheme)):
+async def get_logs(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials  # Extraer el token del encabezado
     # Obtener el usuario actual
     user_info = get_google_user(token)
     user_email = user_info.get("email")
 
     # Verificar si el usuario es administrador
-    admin_emails = ["admin@tudominio.com"]  # Reemplaza con los emails reales de admin
+    admin_emails = ["admin1@example.com", "admin2@example.com"]
     if user_email not in admin_emails:
         raise HTTPException(status_code=403, detail="No tienes permiso para acceder a los logs.")
 

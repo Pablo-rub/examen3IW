@@ -15,19 +15,11 @@ function App() {
     <GoogleOAuthProvider clientId={clientId}>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/event/:id" element={<EventDetails />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/logs" element={<Logs />} />
-          <Route 
-            path="/create-event" 
-            element={
-              <PrivateRoute>
-                <CreateEvent />
-              </PrivateRoute>
-            } 
-          />
-          {/* Añadir rutas protegidas similares para modificar y eliminar eventos */}
+          <Route path="/" element={<Home />} /> {/* Ruta pública */}
+          <Route path="/event/:id" element={<EventDetails />} /> {/* Ruta pública */}
+          <Route path="/create-event" element={<PrivateRoute><CreateEvent /></PrivateRoute>} /> {/* Ruta protegida */}
+          <Route path="/logs" element={<PrivateRoute><Logs /></PrivateRoute>} /> {/* Ruta protegida */}
         </Routes>
       </Router>
     </GoogleOAuthProvider>
