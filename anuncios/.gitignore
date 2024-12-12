@@ -1,6 +1,8 @@
+// filepath: /c:/Users/pablo/Documents/examen3IW/examen3IW/anuncios/.gitignore
 .env
 env/
 data/
 __pycache__/
-**.pyc
+*.pyc
 venv/
+.DS_Store
