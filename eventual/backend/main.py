@@ -9,7 +9,8 @@ app.add_middleware(
     CORSMiddleware,
     # Permitir solicitudes desde localhost:3000 y Vercel
     allow_origins=["http://localhost:3000",
-                    "https://examen3-iw-three.vercel.app"],
+                    "https://examen3-iw-three.vercel.app",
+                    "*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
