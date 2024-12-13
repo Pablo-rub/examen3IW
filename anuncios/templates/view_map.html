@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Mapa de: {{ user_email }}</h2>
+
+    <!-- Mapa -->
+    <div id="map" style="height: 500px; margin-top: 20px;"></div>
+
+    <!-- Mostrar imágenes -->
+    {% if images %}
+        <h3>Imágenes</h3>
+        <div class="images">
+            {% for image_url in images %}
+                <img src="{{ image_url }}" alt="Imagen" class="map-image">
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Mostrar visitas -->
+    <h3>Visitas recibidas</h3>
+    {% if visits %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha y hora</th>
+                    <th>Email del visitante</th>
+                    <th>Token</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for visit in visits %}
+                    <tr>
+                        <td>{{ visit.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <td>{{ visit.visitor_email }}</td>
+                        <td>{{ visit.token }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay visitas registradas.</p>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const markers = {{ markers | tojson }};
+            const map = L.map('map').setView([0, 0], 2);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+            }).addTo(map);
+
+            markers.forEach(function(marker) {
+                L.marker([marker.lat, marker.lon])
+                    .addTo(map)
+                    .bindPopup(marker.location_name);
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,8 +1,6 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f8f8;
-    margin: 0;
-    padding: 0;
 }
 
 nav {
@@ -41,6 +39,47 @@ nav a {
     color: #856404;
 }
 
+form label {
+    display: block;
+    margin-top: 10px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="file"],
+form textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+form button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0069d9;
+}
+
+.images {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.images img {
+    width: 200px;
+    height: auto;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -54,6 +93,10 @@ table, th, td {
 th, td {
     padding: 10px;
     text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
 }
 
 .create-event-link {
@@ -75,35 +118,6 @@ th, td {
     height: auto;
     margin-top: 10px;
     border-radius: 5px;
-}
-
-form label {
-    display: block;
-    margin-top: 10px;
-}
-
-form input[type="text"],
-form input[type="datetime-local"],
-form textarea,
-form input[type="file"] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
-}
-
-form button {
-    margin-top: 15px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-form button:hover {
-    background-color: #0069d9;
 }
 
 .edit-event-button,

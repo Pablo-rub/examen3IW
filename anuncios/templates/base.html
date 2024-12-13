@@ -2,15 +2,16 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Eventual</title>
+    <title>MiMapa</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <!-- Incluir Leaflet CSS -->
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('home') }}">Inicio</a>
         {% if session.get('user') %}
+            <a href="{{ url_for('my_map') }}">Mi Mapa</a>
+            <a href="{{ url_for('view_map') }}">Ver mapa de otro usuario</a>
             <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
         {% else %}
             <a href="{{ url_for('login') }}">Iniciar Sesión</a>
@@ -29,7 +30,7 @@
         {% block content %}{% endblock %}
     </div>
 
-    <!-- Incluir Leaflet JS -->
+    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

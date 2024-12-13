@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Mapa de: {{ user_email }}</h2>
+
+    <!-- Formulario para añadir marcador -->
+    <form action="{{ url_for('my_map') }}" method="post" enctype="multipart/form-data">
+        <label for="location">Ciudad o País visitado:</label>
+        <input type="text" name="location" id="location" required>
+
+        <label for="image">Imagen:</label>
+        <input type="file" name="image" id="image" accept="image/*">
+
+        <button type="submit">Añadir marcador</button>
+    </form>
+
+    <!-- Mapa -->
+    <div id="map" style="height: 500px; margin-top: 20px;"></div>
+
+    <!-- Mostrar imágenes -->
+    {% if images %}
+        <h3>Imágenes</h3>
+        <div class="images">
+            {% for image_url in images %}
+                <img src="{{ image_url }}" alt="Imagen" class="map-image">
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const markers = {{ markers | tojson }};
+            const map = L.map('map').setView([0, 0], 2);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+            }).addTo(map);
+
+            markers.forEach(function(marker) {
+                L.marker([marker.lat, marker.lon])
+                    .addTo(map)
+                    .bindPopup(marker.location_name);
+            });
+        });
+    </script>
+{% endblock %}

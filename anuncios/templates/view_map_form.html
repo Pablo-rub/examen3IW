@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Ver el mapa de otro usuario</h2>
+    <form action="{{ url_for('view_map') }}" method="post">
+        <label for="email">Email del usuario:</label>
+        <input type="email" name="email" id="email" required>
+        <button type="submit">Ver mapa</button>
+    </form>
+{% endblock %}
