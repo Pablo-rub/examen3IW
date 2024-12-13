@@ -9,14 +9,6 @@
 
     <a href="{{ url_for('create_event') }}" class="create-event-link">Crear Nuevo Evento</a>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash {{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     {% if events %}
         <h3>Eventos Encontrados:</h3>
         <ul>
@@ -26,14 +18,9 @@
                 </li>
             {% endfor %}
         </ul>
-        
-        <!-- Mapa de la Ubicación Buscada -->
-        <div id="map" style="height: 400px; margin-top: 20px;"></div>
-    {% else %}
-        {% if address %}
-            <p>No se encontraron eventos cerca de "{{ address }}".</p>
-        {% endif %}
     {% endif %}
+    <!-- Mapa de la Ubicación Buscada -->
+    <div id="map" style="height: 400px; margin-top: 20px;"></div>
 
     {% if search_lat and search_lon %}
         <script>
