@@ -10,6 +10,11 @@
 <body>
     <nav>
         <a href="{{ url_for('home') }}">Inicio</a>
+        {% if session.get('user') %}
+            <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+        {% endif %}
     </nav>
 
     <div class="container">
